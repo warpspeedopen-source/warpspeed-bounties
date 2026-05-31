@@ -1,0 +1,36 @@
+{
+  "name": "attachment-summarizer",
+  "version": "1.0.0",
+  "description": "Node.js/TypeScript Attachment Summarizer Service that consumes events from AWS SQS, downloads files from Google Cloud Storage, and summarizes them using local Ollama.",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "ts-node src/index.ts",
+    "clean": "rimraf dist"
+  },
+  "keywords": [
+    "aws",
+    "sqs",
+    "gcs",
+    "ollama",
+    "summarizer",
+    "typescript",
+    "attachment"
+  ],
+  "author": "Antigravity",
+  "license": "MIT",
+  "dependencies": {
+    "@aws-sdk/client-sqs": "^3.588.0",
+    "@google-cloud/storage": "^7.11.0",
+    "dotenv": "^16.4.5",
+    "pdf-parse": "^1.1.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.12.12",
+    "@types/pdf-parse": "^1.1.4",
+    "rimraf": "^5.0.7",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.5"
+  }
+}

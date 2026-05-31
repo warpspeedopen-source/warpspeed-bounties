@@ -1,0 +1,22 @@
+# Ignore local build artifacts and downloads
+node_modules
+dist
+temp
+
+# Ignore environment credentials and secrets
+.env
+.env.*
+*.pem
+*.json
+
+# Ignore system/ide logs and directories
+.git
+.github
+.vscode
+.idea
+.npm
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.DS_Store
+Thumbs.db
