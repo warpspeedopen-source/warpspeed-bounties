@@ -37,4 +37,3 @@ Developers can browse open bounties, sign up on the website, claim a GitHub issu
 ## Important payment rule
 
 Bounties are paid only after the work is approved and the pull request is merged.
-
