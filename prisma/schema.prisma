@@ -1,0 +1,51 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       String    @id @default(uuid())
+  email    String    @unique
+  name     String?
+  threads  Thread[]
+  messages Message[]
+}
+
+model Thread {
+  id           String    @id @default(uuid())
+  subject      String
+  lastActivity DateTime  @default(now())
+  ownerId      String
+  owner        User      @relation(fields: [ownerId], references: [id])
+  messages     Message[]
+  isArchived   Boolean   @default(false)
+  isDeleted    Boolean   @default(false)
+
+  @@index([ownerId, lastActivity(sort: Desc)])
+  @@index([ownerId, isDeleted, isArchived])
+}
+
+model Message {
+  id         String   @id @default(uuid())
+  threadId   String
+  thread     Thread   @relation(fields: [threadId], references: [id])
+  senderId   String
+  sender     User     @relation(fields: [senderId], references: [id])
+  body       String
+  subject    String   @default("")
+  isDraft    Boolean  @default(false)
+  isArchived Boolean  @default(false)
+  isDeleted  Boolean  @default(false)
+  isRead     Boolean  @default(false)
+  providerId String?  // Gmail/Outlook/IMAP message ID for sync dedup
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([threadId, createdAt(sort: Asc)])
+  @@index([providerId])
+  @@index([senderId])
+}
