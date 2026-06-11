@@ -22,4 +22,73 @@ This file lists the bounty tasks currently visible on the warpSpeed OPEN bounty 
 
 ## Payment condition
 
+# warpSpeed Bounties
+
+Paid open-source bounty tasks for developers contributing to **warpSpeed OPEN**.
+
+## Available Bounties
+
+### [PAID BOUNTY - $330] Email Inbox Classic View Page UI
+
+Build the refreshed Classic Inbox UI using the latest warpSpeed design system.
+
+#### Reward
+
+$330
+
+#### Difficulty
+
+Medium
+
+#### Main Skills
+
+* React Native
+* TypeScript
+* Storybook
+* UI Implementation
+* Design System Components
+
+#### Design Reference
+
+https://xd.adobe.com/view/d740108d-8d28-4588-8417-97f05515d3d2-8213/
+
+#### High-Level Scope
+
+The selected developer will build a reusable Classic Inbox UI that supports multiple inbox views, including Inbox, Sent, Drafts, All Mail, and other email categories.
+
+The implementation should include:
+
+* New top navigation row
+* Account selector
+* Flow, Dashboard, Classic, and Compose buttons
+* Category buttons such as Primary, Promotions, and Updates
+* Updated category icons
+* Search bar and filter button
+* Email list UI
+* Clear visual difference between opened and unopened emails
+* Smooth scroll behaviour where the header hides on scroll down and reappears at the top
+* Storybook implementation for component development and documentation
+
+#### Submission Process
+
+1. Open the bounty page at https://warpspeedopen.org/bounties
+2. Sign up as a developer
+3. Review the full bounty details and rules
+4. Return to the GitHub issue and comment: "I have signed up and would like to claim this bounty."
+5. Wait for maintainer confirmation before starting work
+
+#### Important Rules
+
+* Do not start work until a maintainer confirms your claim
+* Maximum 3 submission attempts
+* Minimum 90% specification match required for consideration
+* Payment is made only at 100% completion
+* Payment is processed only after the pull request is approved and merged
+* First code commit is required at the halfway mark between bounty start and bounty expiration
+* Code must be original or properly licensed
+* The official bounty page is the source of truth for full requirements, rules, and deadlines
+
+---
+
+*For the latest bounty updates, visit https://warpspeedopen.org/bounties*
 Payment happens after the PR is approved and merged.
