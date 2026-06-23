@@ -1,0 +1,139 @@
+// Prisma Schema for Email Threads API
+// Supports thread-first email experience with Gmail, Outlook, and IMAP sync
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  name      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  threads         Thread[]
+  messages        Message[]
+  drafts          Draft[]
+  emailAccounts   EmailAccount[]
+
+  @@map("users")
+}
+
+model EmailAccount {
+  id           String   @id @default(uuid())
+  userId       String
+  provider     EmailProvider
+  email        String
+  accessToken  String?
+  refreshToken String?
+  syncToken    String?
+  lastSyncAt   DateTime?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  messages Message[]
+  drafts   Draft[]
+
+  @@index([userId])
+  @@map("email_accounts")
+}
+
+enum EmailProvider {
+  GMAIL
+  OUTLOOK
+  IMAP
+}
+
+model Thread {
+  id             String   @id @default(uuid())
+  userId         String
+  subject        String
+  snippet        String?
+  participantIds String[] // Array of email addresses
+  messageCount   Int      @default(0)
+  draftCount     Int      @default(0)
+  isRead         Boolean  @default(true)
+  isStarred      Boolean  @default(false)
+  isArchived     Boolean  @default(false)
+  isDeleted      Boolean  @default(false)
+  labels         String[] @default([])
+  lastMessageAt  DateTime @default(now())
+  lastDraftAt    DateTime?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  messages Message[]
+  drafts   Draft[]
+
+  @@index([userId, lastMessageAt(sort: Desc)])
+  @@index([userId, isArchived, isDeleted])
+  @@index([userId, isStarred])
+  @@map("threads")
+}
+
+model Message {
+  id             String   @id @default(uuid())
+  threadId       String
+  userId         String
+  emailAccountId String
+  externalId     String?  // ID from the email provider
+  from           String
+  to             String[]
+  cc             String[] @default([])
+  bcc            String[] @default([])
+  subject        String
+  body           String
+  bodyPreview    String?
+  isRead         Boolean  @default(false)
+  isStarred      Boolean  @default(false)
+  hasAttachments Boolean  @default(false)
+  attachments    Json?    // Array of attachment metadata
+  headers        Json?    // Custom headers
+  provider       EmailProvider
+  sentAt         DateTime
+  receivedAt     DateTime @default(now())
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  thread       Thread       @relation(fields: [threadId], references: [id], onDelete: Cascade)
+  user         User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  emailAccount EmailAccount @relation(fields: [emailAccountId], references: [id], onDelete: Cascade)
+
+  @@index([threadId, sentAt(sort: Asc)])
+  @@index([userId])
+  @@index([emailAccountId])
+  @@index([externalId])
+  @@map("messages")
+}
+
+model Draft {
+  id             String   @id @default(uuid())
+  threadId       String?
+  userId         String
+  emailAccountId String
+  from           String
+  to             String[]
+  cc             String[] @default([])
+  bcc            String[] @default([])
+  subject        String?
+  body           String?
+  isDeleted      Boolean  @default(false)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  thread       Thread?      @relation(fields: [threadId], references: [id], onDelete: SetNull)
+  user         User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  emailAccount EmailAccount @relation(fields: [emailAccountId], references: [id], onDelete: Cascade)
+
+  @@index([threadId])
+  @@index([userId])
+  @@map("drafts")
+}
