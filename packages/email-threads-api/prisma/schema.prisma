@@ -1,0 +1,73 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model EmailThread {
+  id        String    @id @default(cuid())
+  subject   String
+  snippet   String?
+  isRead    Boolean   @default(false)
+  isStarred Boolean   @default(false)
+  category  Category  @default(INBOX)
+  priority  Priority  @default(NORMAL)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  messages  EmailMessage[]
+  labels    Label[]
+  tags      Tag[]
+}
+
+model EmailMessage {
+  id        String   @id @default(cuid())
+  threadId  String
+  thread    EmailThread @relation(fields: [threadId], references: [id], onDelete: Cascade)
+  fromName  String
+  fromEmail String
+  to        String
+  cc        String?
+  bcc       String?
+  subject   String
+  body      String
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([threadId])
+  @@index([fromEmail])
+  @@index([createdAt])
+}
+
+model Label {
+  id        String        @id @default(cuid())
+  name      String        @unique
+  color     String        @default("#007AFF")
+  threads   EmailThread[]
+}
+
+model Tag {
+  id        String        @id @default(cuid())
+  name      String        @unique
+  color     String        @default("#8E8E93")
+  threads   EmailThread[]
+}
+
+enum Category {
+  INBOX
+  SENT
+  DRAFT
+  SPAM
+  TRASH
+  ARCHIVE
+}
+
+enum Priority {
+  LOW
+  NORMAL
+  HIGH
+  URGENT
+}
