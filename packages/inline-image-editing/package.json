@@ -1,0 +1,28 @@
+{
+  "name": "@warpspeed/inline-image-editing",
+  "version": "0.1.0",
+  "description": "Inline image editing component for React Native - crop, rotate, brightness/contrast, annotations, undo/redo, save-as",
+  "private": true,
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "lint": "eslint src/ --ext .ts,.tsx",
+    "storybook": "storybook dev -p 6008",
+    "build-storybook": "storybook build"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-native": "^0.74.3",
+    "react-native-gesture-handler": "^2.17.1",
+    "react-native-reanimated": "^3.14.0",
+    "react-native-svg": "^15.3.0",
+    "react-native-view-shot": "^3.10.0"
+  },
+  "devDependencies": {
+    "@storybook/addon-actions": "^8.1.10",
+    "@storybook/react-native": "^8.1.10",
+    "@types/react": "^18.3.3",
+    "typescript": "^5.5.3"
+  }
+}
