@@ -1,0 +1,73 @@
+// Prisma schema for Attachment Summarizer Service
+// Stores attachment metadata, extracted content, and generated summaries
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Represents a processed attachment from an email
+model Attachment {
+  id            String   @id @default(uuid())
+  messageId     String   // ID of the parent email message
+  storageKey    String   // GCS object key
+  bucketName    String   // GCS bucket name
+  fileName      String   // Original filename
+  mimeType      String   // MIME type of the attachment
+  fileSizeBytes Int      // File size in bytes
+  status        AttachmentStatus @default(PENDING)
+  contentType   String?  // Detected content type (pdf, word, spreadsheet, text, html, image)
+  extractedText String?  // Raw extracted text content
+  summary       String?  // LLM-generated summary
+  summaryModel  String?  // Model used for summary
+  errorMessage  String?  // Error details if processing failed
+  processingTimeMs Int?  // Processing duration
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  events AttachmentEvent[]
+
+  @@index([messageId])
+  @@index([status])
+  @@index([createdAt])
+}
+
+model AttachmentEvent {
+  id         String   @id @default(uuid())
+  attachmentId String
+  type       EventType
+  payload    Json?
+  createdAt  DateTime @default(now())
+
+  attachment Attachment @relation(fields: [attachmentId], references: [id], onDelete: Cascade)
+
+  @@index([attachmentId])
+  @@index([createdAt])
+}
+
+enum AttachmentStatus {
+  PENDING
+  DOWNLOADING
+  DOWNLOADED
+  EXTRACTING
+  EXTRACTED
+  SUMMARIZING
+  COMPLETED
+  FAILED
+}
+
+enum EventType {
+  SQS_RECEIVED
+  DOWNLOAD_STARTED
+  DOWNLOAD_COMPLETED
+  EXTRACTION_STARTED
+  EXTRACTION_COMPLETED
+  SUMMARIZATION_STARTED
+  SUMMARIZATION_COMPLETED
+  ERROR
+  RETRY
+}
