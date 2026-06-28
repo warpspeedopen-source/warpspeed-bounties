@@ -22,4 +22,7 @@ This file lists the bounty tasks currently visible on the warpSpeed OPEN bounty 
 
 ## Payment condition
 
+# warpSpeed Bounties
+
+This repository contains bounty tasks for developers contributing to **warpSpeed OPEN**.
 Payment happens after the PR is approved and merged.
