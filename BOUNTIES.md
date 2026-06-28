@@ -22,4 +22,47 @@ This file lists the bounty tasks currently visible on the warpSpeed OPEN bounty 
 
 ## Payment condition
 
+# warpSpeed Bounties
+
+This document tracks active and completed bounty tasks for the warpSpeed OPEN ecosystem.
+
+## Active Bounties
+
+### Note Locking - Biometrics/PIN
+
+| Field | Details |
+|-------|---------|
+| **Bounty ID** | WARP-2024-001 |
+| **Reward** | $660 |
+| **Status** | 🟡 Open - Awaiting Developer Assignment |
+| **Difficulty** | Medium |
+| **Skills** | React Native, TypeScript, Biometric Authentication, Secure UI States |
+
+#### Description
+
+Build note-level locking for the warpSpeed Notes experience using biometrics, device authentication, or a user-defined PIN.
+
+This bounty gives users a private vault inside Notes. Users should be able to lock new or existing notes, clearly see which notes are locked, and unlock them only after successful authentication.
+
+#### Requirements
+
+- [ ] Ability to lock a new note
+- [ ] Ability to lock an existing note
+- [ ] Authentication using Face ID, Touch ID, fingerprint, device PIN, or user-defined PIN where supported
+- [ ] Clear locked-note state in the UI
+- [ ] Locked notes hidden or obscured until authentication succeeds
+- [ ] Secure lock screen for unauthenticated access attempts
+- [ ] No note content revealed before successful unlock
+- [ ] Re-authentication after app restart
+- [ ] Re-authentication after a configurable timeout period
+- [ ] Ability to remove a note lock through note settings
+- [ ] Ability to change lock settings through note settings
+- [ ] Authentication required before removing or changing a lock
+- [ ] Clear UI indicators such as lock icons or labels
+- [ ] Clean separation between authentication layer, note-locking logic, and UI components
+- [ ] Reusable TypeScript and React Native implementation that can be extended later
+
+#### Technical Architecture
+
+
 Payment happens after the PR is approved and merged.
