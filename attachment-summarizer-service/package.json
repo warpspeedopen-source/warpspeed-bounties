@@ -1,0 +1,37 @@
+{
+  "name": "warpspeed-attachment-summarizer",
+  "version": "1.0.0",
+  "description": "SQS + GCS attachment summarizer service using Prisma and a local Ollama LLM.",
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "dev": "tsx watch src/index.ts",
+    "start": "node dist/index.js",
+    "test": "vitest run",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate deploy",
+    "check:static": "node scripts/static-check.mjs"
+  },
+  "dependencies": {
+    "@aws-sdk/client-sqs": "^3.600.0",
+    "@google-cloud/storage": "^7.11.0",
+    "@prisma/client": "^5.16.0",
+    "cheerio": "^1.0.0-rc.12",
+    "dotenv": "^16.4.5",
+    "mammoth": "^1.8.0",
+    "pdf-parse": "^1.1.1",
+    "pino": "^9.3.2",
+    "tesseract.js": "^5.1.0",
+    "xlsx": "^0.18.5",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.10",
+    "prisma": "^5.16.0",
+    "tsx": "^4.16.2",
+    "typescript": "^5.5.3",
+    "vitest": "^1.6.0"
+  }
+}
+

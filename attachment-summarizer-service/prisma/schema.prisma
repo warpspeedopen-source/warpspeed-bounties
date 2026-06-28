@@ -1,0 +1,40 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model AttachmentJob {
+  id              String    @id @default(cuid())
+  eventId         String    @unique
+  messageId       String?
+  bucket          String
+  objectName      String
+  gcsGeneration   String?
+  filename        String
+  mimeType        String?
+  sizeBytes       Int?
+  status          JobStatus @default(PENDING)
+  extractedText   String?
+  summary         String?
+  summaryModel    String?
+  errorMessage    String?
+  attempts        Int       @default(0)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  completedAt     DateTime?
+
+  @@index([status])
+  @@index([bucket, objectName])
+}
+
+enum JobStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+}
+
