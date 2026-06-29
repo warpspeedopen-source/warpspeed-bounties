@@ -1,0 +1,37 @@
+{
+  "name": "email-threads-api",
+  "version": "1.0.0",
+  "description": "Thread-first Email Threads API for warpSpeed app",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "ts-node src/index.ts",
+    "test": "jest --coverage",
+    "test_watch": "jest --watch"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "@prisma/client": "^5.0.0",
+    "cors": "^2.8.5",
+    "helmet": "^7.0.0",
+    "express-validator": "^7.0.1",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.0",
+    "uuid": "^9.0.0",
+    "winston": "^3.10.0"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/cors": "^2.8.17",
+    "@types/node": "^20.10.0",
+    "@types/jest": "^29.5.11",
+    "@types/uuid": "^9.0.7",
+    "typescript": "^5.3.2",
+    "ts-node": "^10.9.2",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.1",
+    "prisma": "^5.7.0",
+    "@prisma/generator-helper": "^5.7.0"
+  }
+}
