@@ -1,0 +1,72 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: attachment-summarizer
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=${DATABASE_URL}
+      - AWS_REGION=${AWS_REGION}
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - SQS_QUEUE_URL=${SQS_QUEUE_URL}
+      - GCS_BUCKET_NAME=${GCS_BUCKET_NAME}
+      - GCS_PROJECT_ID=${GCS_PROJECT_ID}
+      - GCS_KEY_FILE=${GCS_KEY_FILE}
+      - OLLAMA_HOST=${OLLAMA_HOST}
+      - OLLAMA_MODEL=${OLLAMA_MODEL}
+      - LOG_LEVEL=${LOG_LEVEL:-info}
+    volumes:
+      - ./gcs-key.json:/app/gcs-key.json:ro
+      - temp-downloads:/app/temp-downloads
+    depends_on:
+      - ollama
+      - db
+    networks:
+      - warpspeed-network
+
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama-data:/root/.ollama
+    networks:
+      - warpspeed-network
+
+  db:
+    image: postgres:15-alpine
+    container_name: attachment-summarizer-db
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=warpspeed
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - warpspeed-network
+
+  redis:
+    image: redis:7-alpine
+    container_name: attachment-summarizer-redis
+    ports:
+      - "6379:6379"
+    networks:
+      - warpspeed-network
+
+volumes:
+  ollama-data:
+  postgres-data:
+  temp-downloads:
+
+networks:
+  warpspeed-network:
+    driver: bridge

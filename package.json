@@ -1,0 +1,37 @@
+{
+  "name": "attachment-summarizer-service",
+  "version": "1.0.0",
+  "description": "A service that consumes email attachment events from AWS SQS, downloads attachments from Google Cloud Storage, extracts content, and generates summaries using a self-hosted LLM",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "ts-node src/index.ts",
+    "test": "jest",
+    "lint": "eslint src/**/*.ts"
+  },
+  "dependencies": {
+    "@aws-sdk/client-sqs": "^3.0.0",
+    "@google-cloud/storage": "^7.0.0",
+    "@prisma/client": "^5.0.0",
+    "ollama": "^0.5.0",
+    "pdf-parse": "^1.1.1",
+    "mammoth": "^1.6.0",
+    "xlsx": "^0.18.0",
+    "cheerio": "^1.0.0-rc.12",
+    "sharp": "^0.32.0",
+    "winston": "^3.10.0",
+    "zod": "^3.22.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/pdf-parse": "^1.1.1",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "eslint": "^8.0.0",
+    "jest": "^29.0.0",
+    "prisma": "^5.0.0",
+    "ts-node": "^10.9.0",
+    "typescript": "^5.0.0"
+  }
+}

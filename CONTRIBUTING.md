@@ -28,4 +28,32 @@ Payment is processed only after:
 
 - the submitted PR meets the acceptance criteria,
 - maintainers approve it,
+# Contributing to warpSpeed Bounties
+
+Thank you for your interest in contributing! This repository manages paid bounty tasks for warpSpeed OPEN.
+
+## How to Contribute
+
+1. Browse open [bounty issues](https://github.com/warpspeedopen-source/warpspeed-bounties/issues?q=is%3Aopen+is%3Aissue+label%3Abounty).
+2. Sign up at [warpspeedopen.org/signup](https://warpspeedopen.org/signup).
+3. Comment on the issue to request assignment.
+4. Wait for maintainer confirmation.
+5. Fork the repository and create a feature branch.
+6. Submit a pull request with your solution.
+
+## Pull Request Guidelines
+
+- Include a clear description of the changes.
+- Reference the bounty issue number.
+- Ensure code follows the project's style guidelines.
+- Add tests where applicable.
+- Update documentation as needed.
+
+## Code of Conduct
+
+Please read and follow our [Code of Conduct](CODE_OF_CONDUCT.md).
+
+## Questions?
+
+Join our community Discord or email support@warpspeedopen.org.
 - and the PR is merged.

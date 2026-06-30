@@ -1,0 +1,36 @@
+{
+  "name": "attachment-summarizer",
+  "version": "1.0.0",
+  "description": "Attachment Summarizer Service for warpSpeed OPEN",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "ts-node src/index.ts",
+    "test": "jest",
+    "lint": "eslint src/**/*.ts"
+  },
+  "dependencies": {
+    "@aws-sdk/client-sqs": "^3.0.0",
+    "@google-cloud/storage": "^7.0.0",
+    "ollama": "^0.5.0",
+    "pdf-parse": "^1.1.1",
+    "mammoth": "^1.6.0",
+    "xlsx": "^0.18.5",
+    "cheerio": "^1.0.0-rc.12",
+    "sharp": "^0.32.0",
+    "textract": "^2.5.0",
+    "prisma": "^5.0.0",
+    "@prisma/client": "^5.0.0",
+    "winston": "^3.8.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/pdf-parse": "^1.1.1",
+    "@types/mammoth": "^1.4.4",
+    "typescript": "^5.0.0",
+    "ts-node": "^10.9.0",
+    "@types/jest": "^29.0.0",
+    "jest": "^29.0.0"
+  }
+}

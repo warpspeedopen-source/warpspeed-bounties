@@ -22,4 +22,46 @@ This file lists the bounty tasks currently visible on the warpSpeed OPEN bounty 
 
 ## Payment condition
 
+# Bounties
+
+This repository tracks paid bounty tasks for warpSpeed OPEN contributors.
+
+## Active Bount submissions
+
+See [GitHub Issues](https://github.com/warpspeedopen-source/warpspeed-bounties/issues) for open bounties.
+
+## Claiming a Bounty
+
+1. Browse open issues with the `bounty` label.
+2. Sign up at [warpspeedopen.org/signup](https://warpspeedopen.org/signup).
+3. Comment on the issue to request assignment.
+4. Wait for maintainer confirmation before starting work.
+5. Submit a pull request with your solution.
+6. Respond to review feedback.
+7. Get paid after PR approval and merge.
+
+## Bounty Categories
+
+- FrontendUI
+- React Native
+- Node.js API
+- Prisma / Database
+- TypeScript
+- AI Productivity
+- Documentation
+- Integrations
+
+## Payment
+
+Bounties are paid only after the work is approved and the pull request is merged.
+
+## Rules
+
+- Do not start work until a maintainer confirms your claim.
+- Maximum 3 submission attempts per bounty.
+- Code must be original or properly licensed.
+
+---
+
+*For full terms, see individual bounty issues and the [warpSpeed OPEN website](https://warpspeedopen.org/bounties).*
 Payment happens after the PR is approved and merged.
