@@ -1,0 +1,9 @@
+# Ignorar archivos temporales de aider
+.aider.*
+.aider.tags.cache.*
+
+# Ignorar historial de entrada
+.aider.input.history
+
+# Ignorar historial de chat
+.aider.chat.history.md
