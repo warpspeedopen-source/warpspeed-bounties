@@ -22,4 +22,51 @@ This file lists the bounty tasks currently visible on the warpSpeed OPEN bounty 
 
 ## Payment condition
 
+# warpSpeed Bounties
+
+This file tracks active and completed bounties for the warpSpeed OPEN project.
+
+## Active Bounties
+
+### Email Threads API — $750 (Hard)
+
+| Field | Details |
+|-------|---------|
+| **Bounty ID** | BNT-2024-001 |
+| **Status** | 🟢 Open — accepting claims |
+| **Reward** | $750 USD |
+| **Difficulty** | Hard |
+| **Skills** | Node.js, TypeScript, Prisma, API Development, Email Systems, Jest, Swagger |
+| **Issue** | See GitHub issue #1 |
+
+#### Description
+
+Build a thread-first Email Threads API for the warpSpeed app. This introduces a new threaded email experience so users can work with conversations instead of isolated messages.
+
+#### Technical Scope
+
+- [ ] Listing email threads for the authenticated user
+- [ ] Opening a single thread with metadata and related messages
+- [ ] Grouping filtered/search results by thread
+- [ ] Preserving ownership and access control rules
+- [ ] Including drafts in the correct conversation thread
+- [ ] Excluding archived and deleted messages where required
+- [ ] Updating thread recency when drafts are created, updated, or sent
+- [ ] Ensuring synced Gmail, Outlook, and IMAP emails update thread ordering correctly
+- [ ] Maintaining consistent search and filtering behaviour with the existing messages endpoint
+- [ ] Adding Swagger/API documentation
+- [ ] Adding Jest tests for auth, ordering, filters, drafts, and thread detail behaviour
+
+#### How to Claim
+
+1. Visit [warpSpeed Bounties](https://warpspeedopen.org/bounties)
+2. Sign up as a developer
+3. Comment on the GitHub issue: *"I have signed up and would like to claim this bounty."*
+4. Wait for maintainer confirmation before starting work
+
+---
+
+## Completed Bounties
+
+*None yet — be the first!*
 Payment happens after the PR is approved and merged.

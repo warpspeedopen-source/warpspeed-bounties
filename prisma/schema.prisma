@@ -1,0 +1,96 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(uuid())
+  email         String    @unique
+  name          String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  emailAccounts EmailAccount[]
+  threads       EmailThread[]
+  messages      EmailMessage[]
+}
+
+model EmailAccount {
+  id           String         @id @default(uuid())
+  userId       String
+  user         User           @relation(fields: [userId], references: [id])
+  provider     String         // "gmail", "outlook", "imap"
+  email        String
+  accessToken  String?
+  refreshToken String?
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  messages     EmailMessage[]
+}
+
+model EmailThread {
+  id            String         @id @default(uuid())
+  userId        String
+  user          User           @relation(fields: [userId], references: [id])
+  subject       String
+  lastMessageAt DateTime       @default(now())
+  messageCount  Int            @default(0)
+  isArchived    Boolean        @default(false)
+  isDeleted     Boolean        @default(false)
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  messages      EmailMessage[]
+
+  @@index([userId, lastMessageAt])
+  @@index([userId, isArchived, isDeleted])
+}
+
+model EmailMessage {
+  id             String       @id @default(uuid())
+  userId         String
+  user           User         @relation(fields: [userId], references: [id])
+  emailAccountId String?
+  emailAccount   EmailAccount? @relation(fields: [emailAccountId], references: [id])
+  threadId       String?
+  thread         EmailThread? @relation(fields: [threadId], references: [id])
+  messageId      String?      // External message ID from provider
+  from           String
+  to             String[]
+  cc             String[]
+  bcc            String[]
+  subject        String
+  body           String
+  bodyHtml       String?
+  isRead         Boolean      @default(false)
+  isDraft        Boolean      @default(false)
+  isSent         Boolean      @default(false)
+  isArchived     Boolean      @default(false)
+  isDeleted      Boolean      @default(false)
+  isStarred      Boolean      @default(false)
+  hasAttachments Boolean      @default(false)
+  receivedAt     DateTime?
+  sentAt         DateTime?
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+
+  @@index([userId, threadId])
+  @@index([userId, isDraft])
+  @@index([userId, receivedAt])
+  @@index([threadId, createdAt])
+}
+
+model Attachment {
+  id        String       @id @default(uuid())
+  messageId String
+  message   EmailMessage @relation(fields: [messageId], references: [id])
+  filename  String
+  mimeType  String
+  size      Int
+  url       String
+  createdAt DateTime     @default(now())
+
+  @@index([messageId])
+}
