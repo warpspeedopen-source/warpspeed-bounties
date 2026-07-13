@@ -1,0 +1,109 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ──────────────────────────────────────────────
+// Thread
+// ──────────────────────────────────────────────
+
+model Thread {
+  id             String          @id @default(uuid())
+  userId         String
+  subject        String
+  snippet        String          @default("")
+  category       ThreadCategory  @default(inbox)
+  isStarred      Boolean         @default(false)
+  isRead         Boolean         @default(false)
+  labels         String[]
+  lastMessageAt  DateTime
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+
+  participants   Participant[]
+  messages       Message[]
+
+  @@index([userId, lastMessageAt(sort: Desc)])
+  @@index([userId, category])
+  @@index([userId, isRead])
+  @@index([userId, subject])
+}
+
+enum ThreadCategory {
+  inbox
+  sent
+  drafts
+  archived
+  spam
+  trash
+}
+
+// ──────────────────────────────────────────────
+// Participant
+// ──────────────────────────────────────────────
+
+model Participant {
+  id        String          @id @default(uuid())
+  threadId  String
+  name      String
+  email     String
+  role      ParticipantRole
+
+  thread    Thread          @relation(fields: [threadId], references: [id], onDelete: Cascade)
+
+  @@index([threadId])
+  @@index([email])
+}
+
+enum ParticipantRole {
+  from
+  to
+  cc
+  bcc
+}
+
+// ──────────────────────────────────────────────
+// Message
+// ──────────────────────────────────────────────
+
+model Message {
+  id         String         @id @default(uuid())
+  threadId   String
+  fromEmail  String
+  fromName   String
+  to         Json
+  cc         Json           @default("[]")
+  bcc        Json           @default("[]")
+  subject    String
+  body       String
+  bodyType   String         @default("plain")
+  sentAt     DateTime
+  receivedAt DateTime
+
+  thread     Thread         @relation(fields: [threadId], references: [id], onDelete: Cascade)
+  attachments Attachment[]
+
+  @@index([threadId, receivedAt])
+  @@index([fromEmail])
+}
+
+// ──────────────────────────────────────────────
+// Attachment
+// ──────────────────────────────────────────────
+
+model Attachment {
+  id        String   @id @default(uuid())
+  messageId String
+  filename  String
+  mimeType  String
+  size      Int
+  url       String
+
+  message   Message  @relation(fields: [messageId], references: [id], onDelete: Cascade)
+
+  @@index([messageId])
+}
