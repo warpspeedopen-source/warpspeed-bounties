@@ -1,0 +1,39 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum AttachmentStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+}
+
+model Attachment {
+  id           String           @id @default(uuid())
+  attachmentId String           @unique
+  fileName     String
+  mimeType     String
+  gcsUri       String
+  sqsMessageId String?
+  status       AttachmentStatus @default(PENDING)
+
+  extractedText String?
+  summaryText   String?
+  summaryModel  String?
+
+  errorMessage String?
+  retryCount   Int      @default(0)
+
+  createdAt   DateTime @default(now())
+  processedAt DateTime?
+
+  @@index([attachmentId])
+  @@index([status])
+  @@index([createdAt])
+}
