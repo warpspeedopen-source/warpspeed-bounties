@@ -1,0 +1,91 @@
+// ── Prisma Schema ────────────────────────────────────────────
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// ── Attachment ──────────────────────────────────────────────
+model Attachment {
+  id              String   @id @default(uuid())
+  eventId         String   @unique
+  sourceUrl       String
+  bucket          String?
+  objectPath      String?
+  fileName        String
+  mimeType        String
+  fileSizeBytes   Int?
+  status          AttachmentStatus @default(PENDING)
+  downloadedAt    DateTime?
+  extractedAt     DateTime?
+  summarizedAt    DateTime?
+  errorMessage    String?
+  retryCount      Int      @default(0)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  extraction AttachmentExtraction?
+  summary     AttachmentSummary?
+}
+
+enum AttachmentStatus {
+  PENDING
+  DOWNLOADING
+  DOWNLOADED
+  EXTRACTING
+  EXTRACTED
+  SUMMARIZING
+  COMPLETED
+  FAILED
+}
+
+// ── Extracted Content ───────────────────────────────────────
+model AttachmentExtraction {
+  id            String   @id @default(uuid())
+  attachmentId  String   @unique
+  attachment    Attachment @relation(fields: [attachmentId], references: [id])
+  rawText       String   @db.Text
+  wordCount     Int
+  charCount     Int
+  pageCount     Int?
+  language      String?
+  extractedAt   DateTime @default(now())
+}
+
+// ── Summary ─────────────────────────────────────────────────
+model AttachmentSummary {
+  id            String   @id @default(uuid())
+  attachmentId  String   @unique
+  attachment    Attachment @relation(fields: [attachmentId], references: [id])
+  summaryText   String   @db.Text
+  modelUsed     String
+  tokensIn      Int?
+  tokensOut     Int?
+  confidence    Float?
+  generatedAt   DateTime @default(now())
+}
+
+// ── Processing Log ──────────────────────────────────────────
+model ProcessingLog {
+  id          String   @id @default(uuid())
+  attachmentId String
+  event       String
+  level       LogLevel @default(INFO)
+  message     String   @db.Text
+  metadata    Json?
+  createdAt   DateTime @default(now())
+
+  @@index([attachmentId])
+  @@index([createdAt])
+}
+
+enum LogLevel {
+  DEBUG
+  INFO
+  WARN
+  ERROR
+}
