@@ -1,0 +1,22 @@
+{
+  "name": "attachment-summarizer-service",
+  "version": "1.0.0",
+  "description": "Service to summarize email attachments using AWS SQS, GCS, and a local LLM",
+  "main": "index.ts",
+  "scripts": {
+    "start": "ts-node index.ts",
+    "test": "jest"
+  },
+  "dependencies": {
+    "@aws-sdk/client-sqs": "^3.350.0",
+    "@google-cloud/storage": "^6.10.0"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.2",
+    "@types/node": "^20.4.2",
+    "jest": "^29.6.1",
+    "ts-jest": "^29.1.0",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.1.6"
+  }
+}
