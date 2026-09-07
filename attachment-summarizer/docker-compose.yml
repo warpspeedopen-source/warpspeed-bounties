@@ -1,0 +1,80 @@
+# Local development stack for attachment-summarizer.
+#
+# Includes:
+#   - postgres: replaces SQLite for parity with the production target.
+#   - localstack: emulates AWS SQS on localhost:4566.
+#   - ollama: local LLM runtime.
+#   - app: the summarizer service.
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: attachment-summarizer-postgres
+    environment:
+      POSTGRES_USER: summarizer
+      POSTGRES_PASSWORD: summarizer
+      POSTGRES_DB: summarizer
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U summarizer"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  localstack:
+    image: localstack/localstack:3
+    container_name: attachment-summarizer-localstack
+    environment:
+      SERVICES: sqs
+      AWS_DEFAULT_REGION: us-east-1
+      DEBUG: 0
+    ports:
+      - "4566:4566"
+    volumes:
+      - localstack_data:/var/lib/localstack
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://localhost:4566/_localstack/health || exit 1"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  ollama:
+    image: ollama/ollama:latest
+    container_name: attachment-summarizer-ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+
+  app:
+    build: .
+    container_name: attachment-summarizer-app
+    depends_on:
+      postgres:
+        condition: service_healthy
+      localstack:
+        condition: service_healthy
+      ollama:
+        condition: service_started
+    environment:
+      NODE_ENV: development
+      DATABASE_URL: postgresql://summarizer:summarizer@postgres:5432/summarizer
+      SQS_QUEUE_URL: http://localstack:4566/000000000000/attachment-events
+      GCS_BUCKET: attachments
+      OLLAMA_URL: http://ollama:11434
+      OLLAMA_MODEL: llama3
+      AWS_REGION: us-east-1
+      AWS_ENDPOINT_URL: http://localstack:4566
+      AWS_ACCESS_KEY_ID: test
+      AWS_SECRET_ACCESS_KEY: test
+      LOG_LEVEL: info
+    ports:
+      - "3000:3000"
+
+volumes:
+  pg_data:
+  localstack_data:
+  ollama_data:
