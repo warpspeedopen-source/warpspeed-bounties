@@ -1,0 +1,45 @@
+openapi: 3.0.0
+info:
+  title: Email Threads API
+  description: Thread-first API for email threads in warpSpeed app.
+  version: 1.0.0
+paths:
+  /api/threads:
+    get:
+      summary: List email threads
+      responses:
+        '200':
+          description: A list of email threads.
+  /api/threads/{id}:
+    get:
+      summary: Open a single thread
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Thread metadata with related messages.
+  /api/threads/{id}/drafts:
+    post:
+      summary: Add a draft to a thread
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                body:
+                  type: string
+      responses:
+        '201':
+          description: Draft created successfully and thread recency updated.

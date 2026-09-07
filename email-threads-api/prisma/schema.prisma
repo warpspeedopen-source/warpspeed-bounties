@@ -1,0 +1,39 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       String    @id @default(uuid())
+  email    String    @unique
+  threads  Thread[]
+  messages Message[]
+}
+
+model Thread {
+  id          String    @id @default(uuid())
+  subject     String
+  userId      String
+  user        User      @relation(fields: [userId], references: [id])
+  messages    Message[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt // To track recency
+}
+
+model Message {
+  id         String   @id @default(uuid())
+  threadId   String
+  thread     Thread   @relation(fields: [threadId], references: [id])
+  userId     String
+  user       User     @relation(fields: [userId], references: [id])
+  body       String
+  isDraft    Boolean  @default(false)
+  isArchived Boolean  @default(false)
+  isDeleted  Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
