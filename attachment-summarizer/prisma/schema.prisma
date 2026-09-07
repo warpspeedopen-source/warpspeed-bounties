@@ -1,0 +1,29 @@
+// Prisma schema for attachment-summarizer
+// SQLite for local development; can be swapped to postgres via DATABASE_URL.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Summary {
+  id           String   @id @default(uuid())
+  messageId    String   @unique
+  fileName     String
+  fileType     String
+  fileSize     Int
+  contentHash  String
+  originalText String?
+  summary      String?
+  status       String   @default("PENDING")
+  error        String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([status])
+  @@index([contentHash])
+}
