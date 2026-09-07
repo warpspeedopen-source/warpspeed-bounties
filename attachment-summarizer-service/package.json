@@ -1,0 +1,35 @@
+{
+  "name": "scratch_bounty_1",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "ts-node src/index.ts",
+    "build": "tsc"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@aws-sdk/client-sqs": "^3.1127.0",
+    "@google-cloud/storage": "^8.0.1",
+    "@prisma/client": "^5.22.0",
+    "cheerio": "^1.2.0",
+    "dotenv": "^17.4.2",
+    "mammoth": "^1.12.2",
+    "ollama": "^0.6.3",
+    "pdf-parse": "^2.4.5",
+    "winston": "^3.19.0",
+    "xlsx": "^0.18.5"
+  },
+  "devDependencies": {
+    "@types/jest": "^30.0.0",
+    "@types/node": "^26.5.0",
+    "jest": "^30.5.1",
+    "prisma": "^5.22.0",
+    "ts-jest": "^29.4.12",
+    "ts-node": "^10.9.2",
+    "typescript": "^7.0.2"
+  }
+}
