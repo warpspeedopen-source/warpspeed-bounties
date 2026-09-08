@@ -38,3 +38,25 @@ Developers can browse open bounties, sign up on the website, claim a GitHub issu
 
 Bounties are paid only after the work is approved and the pull request is merged.
 
+
+
+<!-- Fix for issue #2 -->
+```typescript
+// src/components/EmailInbox/EmailInbox.tsx
+import React, { useState, useRef, useEffect, useCallback } from 'react';
+import {
+  View,
+  Text,
+  FlatList,
+  TextInput,
+  TouchableOpacity,
+  Animated,
+  NativeSyntheticEvent,
+  NativeScrollEvent,
+  StyleSheet,
+  SafeAreaView,
+  StatusBar,
+} from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { EmailInboxProps, EmailItem, Em
