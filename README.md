@@ -38,3 +38,29 @@ Developers can browse open bounties, sign up on the website, claim a GitHub issu
 
 Bounties are paid only after the work is approved and the pull request is merged.
 
+
+
+<!-- Fix for issue #2 -->
+```tsx
+// ClassicInboxScreen.tsx
+import React, { useState, useRef, useCallback, useEffect } from 'react';
+import {
+  View,
+  Text,
+  FlatList,
+  TouchableOpacity,
+  TextInput,
+  Animated,
+  StatusBar,
+  SafeAreaView,
+  useWindowDimensions,
+  NativeSyntheticEvent,
+  NativeScrollEvent,
+  Image,
+} from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { Ionicons } from '@expo/vector-icons';
+import { LinearGradient } from 'expo-linear-gradient';
+
+// Types
+type EmailCat
