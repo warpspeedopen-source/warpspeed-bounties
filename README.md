@@ -38,3 +38,18 @@ Developers can browse open bounties, sign up on the website, claim a GitHub issu
 
 Bounties are paid only after the work is approved and the pull request is merged.
 
+
+
+<!-- Fix for issue #4 -->
+```typescript
+// src/modules/threads/threads.service.ts
+import { Injectable, NotFoundException, ForbiddenException } from '@nestjs/common';
+import { PrismaService } from '../prisma/prisma.service';
+import { Thread, Message, Prisma } from '@prisma/client';
+import { ListThreadsDto } from './dto/list-threads.dto';
+import { ThreadDetailDto } from './dto/thread-detail.dto';
+import { MessageFilterDto } from '../messages/dto/message-filter.dto';
+
+@Injectable()
+export class ThreadsService {
+  constructo
