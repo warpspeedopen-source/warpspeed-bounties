@@ -1,0 +1,49 @@
+{
+  "name": "enhanced-image-preview",
+  "version": "1.0.0",
+  "description": "Enhanced image preview component for React Native with gesture support",
+  "main": "src/EnhancedImagePreview.tsx",
+  "types": "src/types.ts",
+  "scripts": {
+    "build": "tsc",
+    "lint": "eslint src --ext .ts,.tsx",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "react-native-gesture-handler": "^2.18.0",
+    "react-native-reanimated": "^3.15.0",
+    "react-native-fs": "^2.20.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.0",
+    "@types/react-native": "^0.72.0",
+    "react": "^18.2.0",
+    "react-native": "^0.73.0",
+    "typescript": "^5.5.0"
+  },
+  "peerDependencies": {
+    "react": ">=18.0.0",
+    "react-native": ">=0.71.0"
+  },
+  "engines": {
+    "node": ">=16"
+  },
+  "keywords": [
+    "react-native",
+    "image-preview",
+    "gallery",
+    "lightbox",
+    "gesture",
+    "pinch-to-zoom",
+    "swipe"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/warpspeedopen-source/warpspeed-bounties"
+  },
+  "bounty": {
+    "issue": "https://github.com/warpspeedopen-source/warpspeed-bounties/issues/6",
+    "reward": "$660"
+  }
+}
