@@ -38,3 +38,32 @@ Developers can browse open bounties, sign up on the website, claim a GitHub issu
 
 Bounties are paid only after the work is approved and the pull request is merged.
 
+
+
+<!-- Fix for issue #4 -->
+```typescript
+// src/modules/threads/threads.controller.ts
+import {
+  Controller,
+  Get,
+  Post,
+  Patch,
+  Delete,
+  Param,
+  Query,
+  Body,
+  UseGuards,
+  HttpCode,
+  HttpStatus,
+} from '@nestjs/common';
+import {
+  ApiTags,
+  ApiOperation,
+  ApiResponse,
+  ApiBearerAuth,
+  ApiQuery,
+  ApiParam,
+} from '@nestjs/swagger';
+import { ThreadsService } from './threads.service';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { CurrentUser } from '../auth/decorators/current-user.d
