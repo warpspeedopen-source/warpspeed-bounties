@@ -13,6 +13,44 @@ This file lists the bounty tasks currently visible on the warpSpeed OPEN bounty 
 | Note Locking (Biometrics/PIN) | $660 | Medium | TypeScript, React Native | Open | 66% full | 12/8/2025 – 3/18/2026 | 12h with AI / 12h unassisted |
 | Audio note recording | $750 | Hard | TypeScript, React Native | Open | 100% full | 12/12/2025 – 3/18/2026 | 8h with AI / 8h unassisted |
 
+## Email inbox (classic view) page UI — $330
+
+Build the refreshed Classic Inbox UI using the latest warpSpeed design system.
+
+### Scope
+
+The Classic Inbox UI must be a reusable component that supports multiple inbox views, including Inbox, Sent, Drafts, All Mail, and other email categories.
+
+### Requirements
+
+- New top navigation row
+- Account selector
+- Flow, Dashboard, Classic, and Compose buttons
+- Category buttons such as Primary, Promotions, and Updates
+- Updated category icons
+- Search bar and filter button
+- Email list UI
+- Clear visual difference between opened and unopened emails
+- Smooth scroll behaviour where the header hides on scroll down and reappears at the top
+- Storybook implementation for component development and documentation
+
+### Stack
+
+React Native, TypeScript, Storybook
+
+### Design Reference
+
+https://xd.adobe.com/view/d740108d-8d28-4588-8417-97f05515d3d2-8213/
+
+### Acceptance Criteria
+
+- Minimum 90% specification match required for consideration.
+- Payment is made only at 100% completion.
+- Payment is processed only after the pull request is approved and merged.
+- Maximum 3 submission attempts.
+- First code commit is required at the halfway mark between bounty start and bounty expiration.
+- Code must be original or properly licensed.
+
 ## How to claim
 
 1. Open the relevant bounty issue.
