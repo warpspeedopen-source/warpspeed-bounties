@@ -1,0 +1,100 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum EmailProvider {
+  GMAIL
+  OUTLOOK
+  IMAP
+}
+
+enum MessageStatus {
+  DRAFT
+  SENT
+  RECEIVED
+  ARCHIVED
+  DELETED
+}
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  name          String?
+  emailAccounts EmailAccount[]
+  threads       Thread[]
+  messages      Message[]
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+model EmailAccount {
+  id          String        @id @default(cuid())
+  userId      String
+  user        User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  provider    EmailProvider
+  email       String
+  accessToken String?
+  refreshToken String?
+  imapHost    String?
+  imapPort    Int?
+  imapUser    String?
+  imapPass    String?
+  lastSyncAt  DateTime?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  @@unique([userId, provider, email])
+}
+
+model Thread {
+  id            String    @id @default(cuid())
+  userId        String
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  subject       String
+  snippet       String    @default("")
+  participants  String[]  @default([])
+  messageCount  Int       @default(0)
+  unreadCount   Int       @default(0)
+  lastMessageAt DateTime  @default(now())
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  messages      Message[]
+
+  @@index([userId, lastMessageAt(sort: Desc)])
+  @@index([userId, subject])
+}
+
+model Message {
+  id            String        @id @default(cuid())
+  threadId      String
+  thread        Thread        @relation(fields: [threadId], references: [id], onDelete: Cascade)
+  userId        String
+  user          User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  messageId     String        @unique
+  inReplyTo     String?
+  references    String[]      @default([])
+  from          String
+  to            String[]
+  cc            String[]      @default([])
+  bcc           String[]      @default([])
+  subject       String
+  body          String
+  bodyHtml      String?
+  status        MessageStatus @default(RECEIVED)
+  provider      EmailProvider
+  providerMsgId String?
+  sentAt        DateTime?
+  receivedAt    DateTime?
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  @@index([threadId, sentAt])
+  @@index([userId, status])
+  @@index([userId, subject])
+  @@index([userId, from])
+}
