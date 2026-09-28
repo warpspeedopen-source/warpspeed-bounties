@@ -1,0 +1,1 @@
+Modify the EmailList component to ensure it is visually distinct between opened and unopened emails.

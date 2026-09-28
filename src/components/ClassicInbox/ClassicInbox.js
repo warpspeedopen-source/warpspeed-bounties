@@ -1,0 +1,1 @@
+Add the new top navigation row, account selector, category buttons, and updated icons to the Classic Inbox component. Ensure that the scroll behavior is smooth, and the email list UI is distinct between opened and unopened emails.

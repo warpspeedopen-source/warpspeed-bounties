@@ -1,0 +1,1 @@
+Update the Header component to include the smooth scroll behavior and ensure it is consistent with the rest of the Classic Inbox view.
