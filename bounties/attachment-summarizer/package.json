@@ -1,0 +1,13 @@
+{
+  "name": "attachment-summarizer",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "SQS attachment events to GCS download, extract, and local LLM summary",
+  "scripts": {
+    "test": "node --experimental-strip-types --test test/pipeline.test.ts",
+    "start": "node --experimental-strip-types src/index.ts"
+  },
+  "engines": { "node": ">=22" },
+  "license": "MIT"
+}
