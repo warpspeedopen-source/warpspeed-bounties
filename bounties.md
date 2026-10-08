@@ -1,0 +1,1 @@
+Update the 'Audio Note Recording' bounty row to indicate that it is 'Open', '100% full', 'Hard', 'TypeScript, React Native', and '8h with AI / 8h unassisted'. Ensure it includes the full technical requirements and other details from the official bounty page.

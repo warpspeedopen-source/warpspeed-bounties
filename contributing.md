@@ -1,0 +1,1 @@
+Add a new section titled 'Audio Note Recording' under the 'Contributing to warpSpeed Bounties' instructions. Include guidelines on how to claim and submit the bounty, focusing on the 'Record Audio' feature.
