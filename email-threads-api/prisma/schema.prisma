@@ -1,0 +1,73 @@
+// Prisma schema for Email Threads API
+// Matches the Domain Models in src/models/index.ts
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String    @id @default(uuid())
+  emailLocal   String
+  emailDomain  String
+  name         String?
+  threads      Thread[]  @relation("ThreadParticipants")
+  messages     Message[] @relation("MessageAuthor")
+  tokens       Token[]
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  @@unique([emailLocal, emailDomain])
+  @@index([emailLocal, emailDomain])
+}
+
+model Thread {
+  id              String    @id @default(uuid())
+  subject         String
+  participantIds  String[]
+  participants    Json      // EmailAddress[] serialized as JSON
+  lastActivityAt  DateTime  @default(now())
+  messageCount    Int       @default(0)
+  draftCount      Int       @default(0)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  messages        Message[]
+  users           User[]    @relation("ThreadParticipants")
+
+  @@index([lastActivityAt])
+  @@index([participantIds])
+}
+
+model Message {
+  id            String   @id @default(uuid())
+  threadId      String
+  thread        Thread   @relation(fields: [threadId], references: [id], onDelete: Cascade)
+  authorId      String
+  author        User     @relation("MessageAuthor", fields: [authorId], references: [id])
+  fromLocal     String
+  fromDomain    String
+  fromName      String?
+  subject       String
+  body          String
+  recipients    Json     // Record<RecipientRole, EmailAddress[]> serialized as JSON
+  isDraft       Boolean  @default(false)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([threadId, createdAt])
+  @@index([authorId, isDraft])
+}
+
+model Token {
+  token     String   @id
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  expiresAt DateTime?
+
+  @@index([userId])
+}
