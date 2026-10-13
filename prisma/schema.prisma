@@ -1,0 +1,67 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String    @id @default(uuid())
+  email     String    @unique
+  password  String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  messages  Message[]
+  threads   Thread[]
+}
+
+model Thread {
+  id            String    @id @default(uuid())
+  userId        String
+  user          User      @relation(fields: [userId], references: [id])
+  subject       String
+  lastMessageAt DateTime  @default(now()) // Timestamp of the most recent message (including drafts)
+  isArchived    Boolean   @default(false) // User-specific archive status for the thread
+  isDeleted     Boolean   @default(false) // User-specific delete status for the thread
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  messages      Message[]
+
+  @@index([userId, lastMessageAt])
+  @@index([userId, isArchived])
+  @@index([userId, isDeleted])
+}
+
+model Message {
+  id                  String    @id @default(uuid())
+  userId              String
+  user                User      @relation(fields: [userId], references: [id])
+  threadId            String?   // Optional for initial messages before thread creation, but should always be set
+  thread              Thread?   @relation(fields: [threadId], references: [id])
+  subject             String
+  body                String
+  from                String
+  to                  String[]
+  cc                  String[]
+  bcc                 String[]
+  sentAt              DateTime  @default(now())
+  isRead              Boolean   @default(false)
+  isDraft             Boolean   @default(false) // Indicates if this message is a draft
+  isArchived          Boolean   @default(false) // User-specific archive status for the message
+  isDeleted           Boolean   @default(false) // User-specific delete status for the message
+  messageId           String?   @unique // The actual email Message-ID header
+  inReplyToMessageId  String?   // The Message-ID this message replies to
+  references          String[]  // Array of Message-IDs this message references
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+
+  @@index([userId, sentAt])
+  @@index([userId, threadId])
+  @@index([threadId, sentAt])
+  @@index([messageId])
+}
